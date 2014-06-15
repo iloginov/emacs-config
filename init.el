@@ -130,7 +130,7 @@
 ;;
 ;; Проверяем, что org-mode > версии 8.0.0. Он не обновляется вместе
 ;; с остальными пакетами при установке, потому что входит в комплект.
-(unless (org-version-check "8" "0" "0")
+(if (< (string-to-int (first (split-string (org-version) "[.]"))) 8)
   (package-install 'org))
 
 ;; List of additional LaTeX packages
