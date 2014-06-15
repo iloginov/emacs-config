@@ -13,10 +13,41 @@
              '("tromey" . "http://tromey.com/elpa/") t)
 (package-initialize)
 
-;;(package-install "smex")
+(let ((my-packages (list
+                    'ac-nrepl
+                    'auto-complete
+                    'cider
+                    'clj-refactor
+                    'clojure-mode
+                    'clojure-mode-extra-font-locking
+                    'clojure-snippets
+                    'clojurescript-mode
+                    'company
+                    'company-cider
+                    'csharp-mode
+                    'elein
+                    'ergoemacs-mode
+                    'espresso-theme
+                    'flymake
+                    'graphviz-dot-mode
+                    'monokai-theme
+                    'magit
+                    'omnisharp
+                    'org
+                    'paredit
+                    'paredit-menu
+                    'popup
+                    'rainbow-delimiters
+                    'rainbow-mode
+                    'smex
+                    'yasnippet)))
 
-(when (not package-archive-contents)
-  (package-refresh-contentes))
+        (unless package-archive-contents
+          (package-refresh-contents))
+        (dolist (package my-packages)
+          (unless (package-installed-p package)
+            (package-install package))))
+
 
 ;; Инициализация ErgoEmacs.
 (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
@@ -97,6 +128,11 @@
 ;;
 ;; Настройка org-mode.
 ;;
+;; Проверяем, что org-mode > версии 8.0.0. Он не обновляется вместе
+;; с остальными пакетами при установке, потому что входит в комплект.
+(unless (org-version-check "8" "0" "0")
+  (package-install 'org))
+
 ;; List of additional LaTeX packages
 (add-to-list 'org-latex-packages-alist '("" "cmap" t))
 (add-to-list 'org-latex-packages-alist '("english,russian" "babel" t))
