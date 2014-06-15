@@ -130,8 +130,9 @@
 ;;
 ;; Проверяем, что org-mode > версии 8.0.0. Он не обновляется вместе
 ;; с остальными пакетами при установке, потому что входит в комплект.
-(if (< (string-to-int (first (split-string (org-version) "[.]"))) 8)
-  (package-install 'org))
+(when (< (string-to-int (first (split-string (org-version) "[.]"))) 8)
+  (package-install 'org)
+  (org-reload))
 
 ;; List of additional LaTeX packages
 (add-to-list 'org-latex-packages-alist '("" "cmap" t))
