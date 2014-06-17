@@ -52,6 +52,7 @@
 ;; Инициализация ErgoEmacs.
 (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+(require 'ergoemacs-mode)
 (ergoemacs-mode 1)
 
 ;; Настраиваем внешний вид.
@@ -130,13 +131,35 @@
 ;;
 ;; Проверяем, что org-mode > версии 8.0.0. Он не обновляется вместе
 ;; с остальными пакетами при установке, потому что входит в комплект.
+;; WARNING: На самом деле, когда я это пробовал, то org-mode из репозитория
+;; отказывался экспотировать. То ли у него был конфликт с тем, что уже шёл
+;; с Emacs, то ли ещё что. Я пользовался тем, что ставил через aptitude.
 (when (< (string-to-int (first (split-string (org-version) "[.]"))) 8)
   (package-install 'org)
   (org-reload))
 
+(require 'org)
+(require 'org-compat)
+
 ;; List of additional LaTeX packages
-(add-to-list 'org-latex-packages-alist '("" "cmap" t))
-(add-to-list 'org-latex-packages-alist '("english,russian" "babel" t))
+(setq org-latex-default-packages-alist
+      '(("utf8" "inputenc" t)
+        ("T2A" "fontenc" t)
+	("english,russian" "babel" t)
+	("" "fixltx2e" nil)
+	("" "graphics" nil)
+	("" "longtable" nil)
+	("" "float" nil)
+	("" "wrapfig" nil)
+	("" "rotating" nil)
+	("normalem" "ulem" t)
+	("" "amsmath" nil)
+	("" "textcomp" nil)
+	("" "marvosym" nil)
+	("" "wasysym" nil)
+	("" "amssymb" nil)
+        ("unicode" "hyperref" nil)
+        "\\tolerance=1000"))
 ;; Sources in org-mode
 (org-babel-do-load-languages 'org-babel-load-languages
 			     '((dot . t)
