@@ -34,8 +34,6 @@
                     'magit
                     'omnisharp
                     'org
-                    'paredit
-                    'paredit-menu
                     'popup
                     'rainbow-delimiters
                     'rainbow-mode
@@ -95,14 +93,16 @@
 (require 'company)
 ;(add-hook 'after-init-hook 'global-company-mode)
 
+;; Electric stuff.
+(electric-indent-mode 1)
+(electric-pair-mode 1)
+
 ;; Подсветка лисповых выражений.
 (add-hook 'emacs-lisp-mode-hook
 	  '(lambda ()
 	     (setq show-paren-style 'expression)
 	     (show-paren-mode 2)
 	     (company-mode t)))
-
-;; TODO: Yasnippet
 
 ;;
 ;; Настройка фолдинга с помощью hideshow.
@@ -173,8 +173,16 @@
 (add-hook 'org-mode-hook
 	  '(lambda ()
 	     (visual-line-mode t))) ; не хочу, чтобы текст убегал за края
+;; Hotkeys
+(global-set-key (kbd "C-c a") 'org-agenda)
 ;; Agenda files path
-(setq org-agenda-files '("~/Dropbox/YaTrade/SocialService"))
+(load-library "find-lisp")
+(setq org-agenda-files
+  (find-lisp-find-files "~/Dropbox/org/" "\.org$"))
+;; MobileOrg
+(setq org-directory "~/Dropbox/org/")
+(setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
+(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 
 ;;
 ;; Настройки для Clojure.
@@ -198,33 +206,7 @@
 ;; Включаем rainbow braces.
 (add-hook 'prog-mode-hook  'rainbow-delimiters-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
-;; Настраиваем paredit.
-(require 'paredit)
-(defun turn-on-paredit () (paredit-mode t))
-(add-hook 'emacs-lisp-mode-hook       'turn-on-paredit)
-(add-hook 'lisp-mode-hook             'turn-on-paredit)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-paredit)
-(add-hook 'scheme-mode-hook           'turn-on-paredit)
-(add-hook 'clojure-mode-hook          'turn-on-paredit)
-(add-hook 'cider-repl-mode-hook       'turn-on-paredit)
-(add-hook 'sibiliant-mode-hook        'turn-on-paredit)
-;; Elastic Returns.
-(defvar electrify-return-match
-    "[\]}\)\"]"
-    "If this regexp matches the text after the cursor, do an \"electric\" return.")
-(defun electrify-return-if-match (arg)
-    "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
-    (interactive "P")
-    (let ((case-fold-search nil))
-      (if (looking-at electrify-return-match)
-          (save-excursion (newline-and-indent)))
-      (newline arg)
-      (indent-according-to-mode)))
-(add-hook 'paredit-mode-hook
-        (lambda ()
-          (local-set-key (kbd "RET") 'electrify-return-if-match)))
+
 ;; Auto Completion
 (require 'auto-complete-config)
 (setq ac-delay 0.0)
