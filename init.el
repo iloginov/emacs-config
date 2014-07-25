@@ -174,7 +174,8 @@
 	  '(lambda ()
 	     (visual-line-mode t))) ; не хочу, чтобы текст убегал за края
 ;; Hotkeys
-(global-set-key (kbd "C-c a") 'org-agenda)
+
+(global-set-key (kbd "C-x a") 'org-agenda)
 ;; Agenda files path
 (load-library "find-lisp")
 (setq org-agenda-files
@@ -219,8 +220,8 @@
 (add-to-list 'ac-modes 'cider-mode)
 (add-to-list 'ac-modes 'cider-repl-mode)
 ;; Hot-key for doc.
-(eval-after-load "cider"
-  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
+;(eval-after-load "cider"
+;  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
 ;; Enable ElDoc.
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
@@ -240,7 +241,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("fc2782b33667eb932e4ffe9dac475f898bf7c656f8ba60e2276704fabb7fa63b" default))))
+ '(custom-safe-themes (quote ("fc2782b33667eb932e4ffe9dac475f898bf7c656f8ba60e2276704fabb7fa63b" default)))
+ '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
+ '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
+ '(ergoemacs-ini-mode t)
+ '(ergoemacs-keyboard-layout "us")
+ '(ergoemacs-mode nil)
+ '(ergoemacs-smart-paste nil)
+ '(ergoemacs-theme "standard")
+ '(ergoemacs-theme-options nil)
+ '(ergoemacs-use-menus t)
+ '(initial-scratch-message ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+")
+ '(org-CUA-compatible nil)
+ '(org-replace-disputed-keys nil)
+ '(org-special-ctrl-a/e nil)
+ '(org-support-shift-select nil)
+ '(scroll-error-top-bottom nil)
+ '(set-mark-command-repeat-pop nil)
+ '(shift-select-mode t)
+ '(smex-prompt-string "M-x "))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
